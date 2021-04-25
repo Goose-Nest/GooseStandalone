@@ -3,7 +3,7 @@
 name="goosealone" # Name of the client
 
 gooseupdate_branch="goosemod" # GooseUpdate branch to use
-gooseupdate_host="http://localhost:1234" # GooseUpdate host to use (you probably want the official one, https://updates.goosemod.com)
+gooseupdate_host="https://updates.goosemod.com" # GooseUpdate host to use (you probably want the official one, https://updates.goosemod.com)
 
 channel="canary" # Discord channel to base on (stable, canary, ptb, development)
 
