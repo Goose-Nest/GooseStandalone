@@ -7,13 +7,21 @@ gooseupdate_host="https://updates.goosemod.com" # GooseUpdate host to use (you p
 
 channel="canary" # Discord channel to base on (stable, canary, ptb, development)
 
+read -p "Client name (default: goosealone)> " name
+name=${name:-goosealone,,}
+
+read -p "Discord channel (default: canary)> " channel
+channel=${channel:-canary,,}
+
+read -p "GooseUpdate branch (default: goosemod)> " gooseupdate_branch
+gooseupdate_branch=${gooseupdate_branch:-goosemod,,}
 
 tar="discord-$channel.tar.gz"
 
 original_base="Discord${channel^}"
 new_base="${name^}${channel^}"
 
-echo "GooseStandalone Builder v0.1.0"
+echo "GooseStandalone Builder (EXPERIMENTAL)"
 echo
 
 echo "Channel: $channel"
