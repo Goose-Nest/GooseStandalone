@@ -1,5 +1,7 @@
 #!/bin/bash
 
+portable="y" # Make user data dir inside exec / base dir instead of in ~/.config / %AppData% / etc
+
 name="goosealone" # Name of the client
 
 gooseupdate_branch="goosemod" # GooseUpdate branch to use
@@ -7,14 +9,20 @@ gooseupdate_host="https://updates.goosemod.com" # GooseUpdate host to use (you p
 
 channel="canary" # Discord channel to base on (stable, canary, ptb, development)
 
+read -p "Make client portable (default: y)> " portable
+portable=${portable:-y}
+
 read -p "Client name (default: goosealone)> " name
-name=${name:-goosealone,,}
+name=${name:-goosealone}
+name=${name,,}
 
 read -p "Discord channel (default: canary)> " channel
-channel=${channel:-canary,,}
+channel=${channel:-canary}
+channel=${channel,,}
 
 read -p "GooseUpdate branch (default: goosemod)> " gooseupdate_branch
-gooseupdate_branch=${gooseupdate_branch:-goosemod,,}
+gooseupdate_branch=${gooseupdate_branch:-goosemod}
+gooseupdate_branch=${gooseupdate_branch,,}
 
 tar="discord-$channel.tar.gz"
 
@@ -135,7 +143,11 @@ echo
 echo "Replacing user data path"
 
 userdata_code_original="return _path.default.join(userDataRoot, 'discord' + (buildInfo.releaseChannel == 'stable' ? '' : buildInfo.releaseChannel))"
-userdata_code_new="return _path.default.join(userDataRoot, '$name' + (buildInfo.releaseChannel == 'stable' ? '' : buildInfo.releaseChannel))"
+
+case "$portable" in
+ y) userdata_code_new="return _path.default.join(process.resourcesPath, '..', 'userData')" ;;
+ *) userdata_code_new="return _path.default.join(userDataRoot, '$name' + (buildInfo.releaseChannel == 'stable' ? '' : buildInfo.releaseChannel))" ;;
+esac
 
 echo "$userdata_code_original -> $userdata_code_new"
 
