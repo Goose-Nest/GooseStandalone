@@ -1,13 +1,12 @@
-import fetch from 'node-fetch';
-
 import { join } from 'path';
-import { createWriteStream, existsSync, mkdirSync, rmSync } from 'fs';
+import { existsSync, mkdirSync, rmSync } from 'fs';
 
 import Tar from 'tar';
 
 import Asar from 'asar';
 
 import titleCase from './lib/titleCase.js';
+import downloadFile from './lib/downloadFile.js';
 
 
 const downloadTar = async (platform, channel, path) => {
@@ -17,16 +16,7 @@ const downloadTar = async (platform, channel, path) => {
 
       console.log('Downloading tar (', url, ')');
 
-      const res = (await fetch(url));
-
-      const fileStream = createWriteStream(path);
-
-      await new Promise((resolve, reject) => {
-        res.body.pipe(fileStream);
-
-        res.body.on("error", reject);
-        fileStream.on("finish", resolve);
-      });
+      await downloadFile(path, url);
     }
   }
 };

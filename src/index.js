@@ -15,7 +15,7 @@ const distPath = join(__dirname, '..', 'dist');
 
 // rmSync(buildPath, { recursive: true, force: true });
 
-let { channel, platform, name, branch, patches } = await Inquirer.prompt([
+let { channel, platform, name, patches } = await Inquirer.prompt([
   {
     type: 'input',
 
@@ -59,21 +59,6 @@ let { channel, platform, name, branch, patches } = await Inquirer.prompt([
   {
     type: 'checkbox',
 
-    name: 'branch',
-
-    message: 'GooseUpdate mods',
-
-    choices: [
-      { name: 'goosemod', checked: true },
-
-      'smartcord',
-      'betterdiscord'
-    ]
-  },
-
-  {
-    type: 'checkbox',
-
     name: 'patches',
 
     message: 'Client patches',
@@ -81,19 +66,17 @@ let { channel, platform, name, branch, patches } = await Inquirer.prompt([
     choices: [
       'gooseupdate',
       'portable',
-      'branding_files'
+      'branding_files',
+      'branding_app'
     ].map((x) => ({ name: x, checked: true }))
   }
 ]);
 
-console.log();
-
-branch = branch.join('+');
+console.log('\nInitialising...');
 
 const dirs = await init(platform, channel, buildPath);
 
-
-console.log('Patching client');
+console.log('\nLoading patches...');
 
 for (const m of patches) {
   console.log(m);
@@ -102,10 +85,11 @@ for (const m of patches) {
   await exports.default(dirs, {
     channel,
     name,
-    branch,
     platform
   });
 }
+
+console.log('Loaded patches\n\nFinalising...');
 
 const finalPath = join(distPath, channel, platform);
 
