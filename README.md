@@ -15,4 +15,4 @@ Converts Discord clients into separate clients for mods using GooseUpdate. Exper
 
 ### Script
 
-Run the script via `bash build.sh`. Unless you know what you are doing, it is best to leave the interactive options blank (pressing just enter) to use defaults.
+Run the script via `bash build.sh`. Unless you know what you are doing, it is best to leave the interactive options blank (pressing just enter) to use defaults. The build will then be in `dist/<discord channel>/<discord platform>`.

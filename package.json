@@ -1,0 +1,31 @@
+{
+  "name": "goosestandalone",
+  "version": "1.0.0",
+  "description": "Converts Discord clients into separate clients for mods using GooseUpdate. Experimental. Linux tar.gz-only.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GooseMod/GooseStandalone.git"
+  },
+  "keywords": [
+    "discord",
+    "goosemod",
+    "modding"
+  ],
+  "author": "GooseMod",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GooseMod/GooseStandalone/issues"
+  },
+  "homepage": "https://github.com/GooseMod/GooseStandalone#readme",
+  "dependencies": {
+    "asar": "^3.0.3",
+    "inquirer": "^8.0.0",
+    "node-fetch": "^2.6.1",
+    "tar": "^6.1.0"
+  },
+  "type": "module"
+}
