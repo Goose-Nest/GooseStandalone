@@ -88,7 +88,7 @@ let { channel, platform, name, branch, patches } = await Inquirer.prompt([
 
 console.log();
 
-branch = branch.join(' ');
+branch = branch.join('+');
 
 const dirs = await init(platform, channel, buildPath);
 
