@@ -36,7 +36,7 @@ export default async (platform, channel, buildPath) => {
   const tarPath = join(dirPath, `discord.tar.gz`);
   const exPath = join(dirPath);
 
-  const basePath = join(dirPath, `Discord${titleCase(channel)}`);
+  const basePath = join(dirPath, `Discord${channel === 'stable' ? '' : titleCase(channel)}`);
 
   const asarFilePath = join(basePath, 'resources', 'app.asar');
   const asarExtractPath = join(dirPath, 'asar');
