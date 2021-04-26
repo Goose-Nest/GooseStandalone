@@ -15,7 +15,7 @@ const distPath = join(__dirname, '..', 'dist');
 
 // rmSync(buildPath, { recursive: true, force: true });
 
-let { channel, platform, name, branch, modules } = await Inquirer.prompt([
+let { channel, platform, name, branch, patches } = await Inquirer.prompt([
   {
     type: 'input',
 
