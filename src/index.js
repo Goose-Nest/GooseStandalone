@@ -64,11 +64,14 @@ let { channel, platform, name, patches } = await Inquirer.prompt([
     message: 'Client patches',
 
     choices: [
-      'gooseupdate',
-      'portable',
-      'branding_files',
-      'branding_app'
-    ].map((x) => ({ name: x, checked: true }))
+      { checked: true, name: 'gooseupdate' },
+      { checked: false, name: 'gooseupdate_runtime_choice' },
+
+      { checked: true, name: 'portable' },
+
+      { checked: true, name: 'branding_files' },
+      { checked: false, name: 'branding_app' }
+    ]
   }
 ]);
 
