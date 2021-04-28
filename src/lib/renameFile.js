@@ -1,6 +1,13 @@
-import { copyFileSync, rmSync } from 'fs';
+import { copyFileSync, rmSync, lstatSync } from 'fs';
+
+import copyDirSync from './copyDirSync.js';
 
 export default (oldPath, newPath) => {
-  copyFileSync(oldPath, newPath);
-  rmSync(oldPath);
+  if (lstatSync(join(from, element)).isFile()) {
+    copyFileSync(oldPath, newPath);
+  } else {
+    copyDirSync(oldPath, newPath);
+  }
+
+  rmSync(oldPath, { recursive: true, force: true });
 };
