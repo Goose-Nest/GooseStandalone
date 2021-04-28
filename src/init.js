@@ -54,7 +54,7 @@ export default async (platform, channel, buildPath) => {
       }
 
       case 'windows': {
-        const manifestUrl =`https://discord.com/api/updates/distributions/app/manifests/latest?channel=stable&platform=win&arch=x86`;
+        const manifestUrl =`https://discord.com/api/updates/distributions/app/manifests/latest?channel=${channel}&platform=win&arch=x86`;
 
         console.log('Downloading tar ( 1/2 - manifest -', manifestUrl, ')');
 
