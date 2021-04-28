@@ -84,7 +84,7 @@ console.log('\nLoading patches...');
 for (const m of patches) {
   console.log(m);
 
-  const exports = await import(join(__dirname, 'patches', `${m}.js`));
+  const exports = await import(`./patches/${m}.js`);
   await exports.default(dirs, {
     channel,
     name,
