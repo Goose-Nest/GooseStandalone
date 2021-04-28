@@ -13,8 +13,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const buildPath = join(__dirname, '..', 'build');
 const distPath = join(__dirname, '..', 'dist');
 
-// rmSync(buildPath, { recursive: true, force: true });
-
 let { channel, platform, name, patches } = await Inquirer.prompt([
   {
     type: 'input',
@@ -68,6 +66,7 @@ let { channel, platform, name, patches } = await Inquirer.prompt([
       { checked: false, name: 'gooseupdate_runtime_choice' },
 
       { checked: true, name: 'portable' },
+      { checked: false, name: 'system_electron' },
 
       { checked: true, name: 'branding_files' },
       { checked: false, name: 'branding_app' }
@@ -95,5 +94,7 @@ for (const m of patches) {
 console.log('Loaded patches\n\nFinalising...');
 
 const finalPath = join(distPath, channel, platform);
+
+rmSync(finalPath, { recursive: true, force: true });
 
 await final(dirs, finalPath);
