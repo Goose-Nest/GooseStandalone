@@ -18,7 +18,7 @@ export default ({ basePath }, { name, channel, platform }) => {
     renameFile(desktopPath, join(basePath, `${name.toLowerCase()}${channel === 'stable' ? '' : `-${channel}`}.desktop`));
   }
 
-  const execSuffix = platform === 'windows' ? '' : (channel === 'stable' ? '' : titleCase(channel));
+  const execSuffix = channel === 'stable' ? '' : titleCase(channel);
   const execExt = platform === 'windows' ? '.exe' : '';
 
   // Exec file
