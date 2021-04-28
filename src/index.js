@@ -34,7 +34,8 @@ let { channel, platform, name, patches } = await Inquirer.prompt([
 
     message: 'Discord platform',
     choices: [
-      'linux'
+      'linux',
+      'windows'
     ]
   },
 
