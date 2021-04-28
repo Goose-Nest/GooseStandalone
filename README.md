@@ -7,12 +7,11 @@ Converts Discord clients into separate clients for mods using GooseUpdate. Exper
 
 ### Dependencies
 
- - `asar` command line tool (install via `npm i -g asar`)
- - `wget`
- - `sed`
- - `bash`
- - `tar`
+ - [Node.JS](https://nodejs.org) (along with NPM)
 
-### Script
+### Running
 
-Run the script via `bash build.sh`. Unless you know what you are doing, it is best to leave the interactive options blank (pressing just enter) to use defaults. The build will then be in `dist/<discord channel>/<discord platform>`.
+1. Install NPM dependencies with `npm install`
+2. Run the script via `node src/index.js`
+3. Unless you know what you are doing, it is best to leave the interactive options blank (pressing just enter) to use defaults.
+4. The build will then be in `dist/<discord channel>/<discord platform>`.
