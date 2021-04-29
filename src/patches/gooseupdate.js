@@ -14,10 +14,10 @@ export default async ({ asarExtractPath }) => {
       message: 'GooseUpdate mods',
 
       choices: [
-        { name: 'goosemod', checked: true },
-
         'smartcord',
-        'betterdiscord'
+        'betterdiscord',
+
+        { name: 'goosemod', checked: true }
       ]
     }
   ]);
