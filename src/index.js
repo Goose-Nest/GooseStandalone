@@ -94,7 +94,7 @@ for (const m of patches) {
 
 console.log('Loaded patches\n\nFinalising...');
 
-const finalPath = join(distPath, channel, platform);
+const finalPath = join(distPath, channel, platform, platform === 'windows' ? 'app-0.0.0' : '');
 
 rmSync(finalPath, { recursive: true, force: true });
 
