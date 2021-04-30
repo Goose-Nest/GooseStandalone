@@ -17,7 +17,7 @@ const exePath = join(oldAppPath, readdirSync(oldAppPath).find((x) => x.includes(
 
 console.log('Running Discord to generate installer.db...');
 
-execSync(exePath, { stdio: 'inherit' });
+execSync(`"${exePath}"`, { stdio: 'inherit' });
 
 console.log('Ran, finding new app dir');
 
