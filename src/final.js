@@ -6,7 +6,7 @@ import Asar from 'asar';
 import copyDirSync from './lib/copyDirSync.js';
 
 
-export default async ({ basePath, asarFilePath, asarExtractPath }, finalPath) => {
+export default async ({ basePath, asarFilePath, asarExtractPath }, { }, finalPath) => {
   await Asar.createPackage(asarExtractPath, asarFilePath);
 
   console.log('Repacked asar');

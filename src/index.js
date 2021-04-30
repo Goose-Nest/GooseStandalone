@@ -1,6 +1,6 @@
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { rmSync } from 'fs';
+import { rmSync, readFileSync } from 'fs';
 
 import Inquirer from 'inquirer';
 
@@ -79,23 +79,28 @@ console.log('\nInitialising...');
 
 const dirs = await init(platform, channel, buildPath);
 
+const buildInfo = JSON.parse(readFileSync(join(dirs.basePath, 'resources', 'build_info.json'), 'utf8'));
+
 console.log('\nLoading patches...');
+
+const extraInfo = {
+  channel,
+  name,
+  platform,
+  buildInfo
+};
 
 for (const m of patches) {
   console.log(m);
 
   const exports = await import(`./patches/${m}.js`);
-  await exports.default(dirs, {
-    channel,
-    name,
-    platform
-  });
+  await exports.default(dirs, extraInfo);
 }
 
 console.log('Loaded patches\n\nFinalising...');
 
-const finalPath = join(distPath, channel, platform, platform === 'windows' ? 'app-0.0.0' : '');
+const finalPath = join(distPath, channel, platform, platform === 'windows' ? `app-${buildInfo.version}` : '');
 
 rmSync(finalPath, { recursive: true, force: true });
 
-await final(dirs, finalPath);
+await final(dirs, extraInfo, finalPath);
