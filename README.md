@@ -18,4 +18,6 @@ Converts Discord clients into separate clients for mods using GooseUpdate. Exper
 
 ### Windows Builds
 
-Important note for Windows builds: Your dist dir contains a dir called "app-0.0.0". When using the build, you need to keep the actual build (containing the exe, etc.) inside a dir called "app-X.Y.Z" (substituting with integers, likely just use "app-0.0.0") otherwise Discord refuses to use the new updater.
+Windows builds are more complex for first-time setup due to unsolved complications with the new updater. After generating the build for the first time run from the root directory:
+```js
+node src/extra/setup_windows.js <channel (stable/ptb/canary)>```
