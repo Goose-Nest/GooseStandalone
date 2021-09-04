@@ -1,6 +1,6 @@
-# GooseStandalone :test_tube:
+# GooseStandalone
 
-Converts Discord clients into separate clients for mods using GooseUpdate. Experimental. Linux tar.gz-only.
+Converts Discord clients into separate clients for mods using GooseUpdate. Experimental.
 
 
 ## Building
@@ -20,4 +20,5 @@ Converts Discord clients into separate clients for mods using GooseUpdate. Exper
 
 Windows builds are more complex for first-time setup due to unsolved complications with the new updater. After generating the build for the first time run from the root directory:
 ```js
-node src/extra/setup_windows.js <channel (stable/ptb/canary)>```
+node src/extra/setup_windows.js <channel (stable/ptb/canary)>
+```
