@@ -81,7 +81,7 @@ const dirs = await init(platform, channel, buildPath);
 
 const buildInfo = JSON.parse(readFileSync(join(dirs.basePath, 'resources', 'build_info.json'), 'utf8'));
 
-console.log('\nLoading patches...');
+console.log('\nPatching...');
 
 const extraInfo = {
   channel,
@@ -97,7 +97,7 @@ for (const m of patches) {
   await exports.default(dirs, extraInfo);
 }
 
-console.log('Loaded patches\n\nFinalising...');
+console.log('\n\nFinalising...');
 
 const finalPath = join(distPath, channel, platform, platform === 'windows' ? `app-0.0.0` : '');
 
