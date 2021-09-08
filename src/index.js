@@ -1,6 +1,6 @@
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { rmSync, readFileSync } from 'fs';
+import { rmSync, readFileSync, readdirSync } from 'fs';
 
 import Inquirer from 'inquirer';
 
@@ -12,6 +12,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const buildPath = join(__dirname, '..', 'build');
 const distPath = join(__dirname, '..', 'dist');
+
+const defaultPatches = [ 'gooseupdate', 'portable', 'branding_files' ];
+const allPatches = readdirSync(join(__dirname, 'patches')).map((x) => x.split('.').slice(0, -1).join('.'));
+
 
 let { channel, platform, name, patches } = await Inquirer.prompt([
   {
@@ -62,16 +66,7 @@ let { channel, platform, name, patches } = await Inquirer.prompt([
 
     message: 'Client patches',
 
-    choices: [
-      { checked: true, name: 'gooseupdate' },
-      { checked: false, name: 'gooseupdate_runtime_choice' },
-
-      { checked: true, name: 'portable' },
-      { checked: false, name: 'system_electron' },
-
-      { checked: true, name: 'branding_files' },
-      { checked: false, name: 'branding_app' }
-    ]
+    choices: allPatches.map((x) => ({ checked: defaultPatches.includes(x), name: x }))
   }
 ]);
 
