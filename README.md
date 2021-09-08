@@ -1,6 +1,6 @@
 # GooseStandalone
 
-Converts Discord clients into separate clients for mods using GooseUpdate. Experimental.
+Converts Discord clients into separate clients for regular mods (via GooseUpdate) or otherwise impractical patches (portable, branding, etc.). Experimental.
 
 
 ## Building
