@@ -17,7 +17,7 @@ const defaultPatches = [ 'gooseupdate', 'portable', 'branding_files' ];
 const allPatches = readdirSync(join(__dirname, 'patches')).map((x) => x.split('.').slice(0, -1).join('.'));
 
 
-let { channel, platform, name, patches } = await Inquirer.prompt([
+let { channel, platform, name, source, patches } = await Inquirer.prompt([
   {
     type: 'input',
 
@@ -60,6 +60,21 @@ let { channel, platform, name, patches } = await Inquirer.prompt([
   },
 
   {
+    type: 'list',
+    loop: false,
+
+    name: 'source',
+
+    default: 'download',
+
+    message: 'Discord client source',
+    choices: [
+      'download',
+      'local'
+    ]
+  },
+
+  {
     type: 'checkbox',
 
     name: 'patches',
@@ -72,7 +87,7 @@ let { channel, platform, name, patches } = await Inquirer.prompt([
 
 console.log('\nInitialising...');
 
-const dirs = await init(platform, channel, buildPath);
+const dirs = await init(platform, channel, source, buildPath);
 
 const buildInfo = JSON.parse(readFileSync(join(dirs.basePath, 'resources', 'build_info.json'), 'utf8'));
 

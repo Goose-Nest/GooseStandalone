@@ -5,6 +5,7 @@ import { brotliDecompressSync } from 'zlib';
 import Tar from 'tar';
 import fetch from 'node-fetch';
 import Asar from 'asar';
+import Inquirer from 'inquirer';
 
 
 import titleCase from './lib/titleCase.js';
@@ -12,19 +13,7 @@ import downloadFile from './lib/downloadFile.js';
 import copyDirSync from './lib/copyDirSync.js';
 
 
-const downloadTar = async (platform, channel, path) => {
-  switch (platform) {
-    case 'linux': {
-      const url = `https://discord.com/api/download/${channel}?platform=linux&format=tar.gz`;
-
-      console.log('Downloading tar (', url, ')');
-
-      await downloadFile(path, url);
-    }
-  }
-};
-
-export default async (platform, channel, buildPath) => {
+export default async (platform, channel, source, buildPath) => {
   const dirPath = join(buildPath, channel, platform);
 
   const basePath = join(dirPath, platform === 'windows' ? 'files' : `Discord${channel === 'stable' ? '' : titleCase(channel)}`);
@@ -43,28 +32,91 @@ export default async (platform, channel, buildPath) => {
     mkdirSync(dirPath, { recursive: true });
   }
 
-  if (!existsSync(tarPath)) {
-    switch (platform) {
-      case 'linux': {
-        mkdirSync(join(tarPath, '..'), { recursive: true });
+  if (!existsSync(tarPath) || source === 'local') {
+    mkdirSync(join(tarPath, '..'), { recursive: true });
+
+    switch (source) {
+      case 'download': {
+        switch (platform) {
+          case 'linux': {
+            const url = `https://discord.com/api/download/${channel}?platform=linux&format=tar.gz`;
     
-        await downloadTar(platform, channel, tarPath);
+            console.log('Downloading tar (', url, ')');
+          
+            await downloadFile(path, url);
+    
+            break;
+          }
+    
+          case 'windows': {
+            const manifestUrl =`https://discord.com/api/updates/distributions/app/manifests/latest?channel=${channel}&platform=win&arch=x86`;
+    
+            console.log('Downloading tar ( 1/2 - manifest -', manifestUrl, ')');
+    
+            const manifest = await (await fetch(manifestUrl)).json();
+    
+            console.log('Downloading tar ( 2/2 - tar -', manifest.full.url, ')');
+    
+            const data = brotliDecompressSync(await (await fetch(manifest.full.url)).arrayBuffer());
+    
+            writeFileSync(tarPath, data);
+    
+            break;
+          }
+        }
 
         break;
       }
 
-      case 'windows': {
-        const manifestUrl =`https://discord.com/api/updates/distributions/app/manifests/latest?channel=${channel}&platform=win&arch=x86`;
+      case 'local': {
+        switch (platform) {
+          case 'linux': {
+            const { local_source } = await Inquirer.prompt([
+              {
+                type: 'list',
+                loop: false,
+            
+                name: 'local_source',
+            
+                default: 'opt',
+            
+                message: 'Discord local Linux source',
+                choices: [
+                  'opt',
+                  'flatpak',
+                  'snap'
+                ]
+              }
+            ]);
 
-        console.log('Downloading tar ( 1/2 - manifest -', manifestUrl, ')');
+            let localPath = '';
 
-        const manifest = await (await fetch(manifestUrl)).json();
+            switch (local_source) {
+              case 'opt': {
+                localPath = `/opt/discord${channel !== 'stable' ? `-${channel}` : ''}`;
+                break;
+              }
 
-        console.log('Downloading tar ( 2/2 - tar -', manifest.full.url, ')');
+              case 'flatpak': {
+                break;
+              }
 
-        const data = brotliDecompressSync(await (await fetch(manifest.full.url)).arrayBuffer());
+              case 'snap': {
+                break;
+              }
+            }
 
-        writeFileSync(tarPath, data);
+            console.log(localPath);
+
+            copyDirSync(localPath, basePath);
+
+            break;
+          }
+    
+          case 'windows': {
+            break;
+          }
+        }
 
         break;
       }
@@ -73,7 +125,7 @@ export default async (platform, channel, buildPath) => {
 
   console.log('Got tar');
 
-  if (!existsSync(basePath)) {
+  if (!existsSync(basePath) && source !== 'local') {
     await Tar.x({
       file: tarPath,
       cwd: exPath
