@@ -114,6 +114,10 @@ export default async (platform, channel, source, buildPath) => {
           }
     
           case 'windows': {
+            const localPath = process.env.APPDATALOCAL + `\\discord${channel !== 'stable' ? channel : ''}`;
+
+            copyDirSync(localPath, basePath);
+
             break;
           }
         }
